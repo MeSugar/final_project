@@ -38,19 +38,13 @@ from .create_pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--max_iter",
+    "--max-iter",
     default=100,
     type=int,
     show_default=True,
 )
 @click.option(
-    "--max_iter",
-    default=100,
-    type=int,
-    show_default=True,
-)
-@click.option(
-    "--logreg-C",
+    "--logreg-c",
     default=1.0,
     type=float,
     show_default=True,
@@ -59,7 +53,9 @@ def train(
         dataset_path: Path,
         save_model_path: Path,
         random_state: int,
-        test_split_ratio : float
+        test_split_ratio : float,
+        max_iter : int,
+        logreg_c : float,
 ) -> None:
     """Script to train and save model."""
     X_train, X_test, y_train, y_test = get_data(
@@ -68,3 +64,4 @@ def train(
         test_split_ratio,
     )
 
+    pipeline = create_pipeline(max_iter, logreg_c, random_state)
