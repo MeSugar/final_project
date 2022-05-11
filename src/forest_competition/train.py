@@ -1,5 +1,9 @@
 from pathlib import Path
-import typing
+from joblib import dump
+from sklearn.model_selection import cross_validate
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import f1_score
+from sklearn.metrics import roc_auc_score
 
 import click
 import pandas as pd
@@ -21,7 +25,7 @@ from .create_pipeline import create_pipeline
 @click.option(
     "-s",
     "--save-model-path",
-    default="model/model.joblib",
+    default="data/model.joblib",
     type=click.Path(dir_okay=False, writable=True, path_type=Path),
     show_default=True,
 )
@@ -44,18 +48,26 @@ from .create_pipeline import create_pipeline
     show_default=True,
 )
 @click.option(
-    "--logreg-c",
-    default=1.0,
-    type=float,
+    "--n-neighbors",
+    default=5,
+    type=int,
     show_default=True,
 )
+@click.option(
+    "--knn-weights",
+    default='uniform',
+    type=str,
+    show_default=True,
+)
+
 def train(
         dataset_path: Path,
         save_model_path: Path,
         random_state: int,
         test_split_ratio : float,
         max_iter : int,
-        logreg_c : float,
+        n_neighbors : int,
+        knn_weights : str
 ) -> None:
     """Script to train and save model."""
     X_train, X_test, y_train, y_test = get_data(
@@ -64,4 +76,10 @@ def train(
         test_split_ratio,
     )
 
-    pipeline = create_pipeline(max_iter, logreg_c, random_state)
+    pipeline = create_pipeline(n_neighbors, knn_weights)
+    pipeline.fit(X_train, y_train)
+    # scoring = ['accuracy', 'f1_macro', 'roc_auc']
+    # scores = cross_validate(pipeline, X_test, y_test, scoring=scoring)
+    # click.echo(f"{scores}")
+    dump(pipeline, save_model_path)
+    click.echo(f"Model is saved to {save_model_path}.")
