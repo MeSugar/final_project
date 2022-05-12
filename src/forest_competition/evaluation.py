@@ -22,8 +22,9 @@ def evaluate(
         'roc_auc_score' : make_scorer(roc_auc_score, multi_class='ovr', needs_proba=True)
     }
     scores = {}
-    for i, key in enumerate(scoring):
+    for key in scoring:
         scores[key] = cross_val_score(
         pipeline, X_test, y_test, cv=StratifiedKFold(n_splits=5),
         scoring=scoring[key]).mean()
-        click.echo(f"{key}: {scores[i]}")
+        click.echo(f"{key}: {scores[key]}")
+    return scores

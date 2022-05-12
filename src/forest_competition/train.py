@@ -73,7 +73,7 @@ from .evaluation import evaluate
 )
 @click.option(
     "--algorithm",
-    default="knn, lr, rf",
+    default="knn",
     type=click.Choice(["knn", "lr", "rf"]),
     show_default=True,
     help="Algorithm to be used for modeling."
@@ -96,18 +96,17 @@ def train(
         random_state,
         test_split_ratio,
     )
-        with mlflow.start_run():
-
-            pipeline = create_pipeline(n_neighbors, knn_weights)
-            pipeline.fit(X_train, y_train)
-            scores = evaluate(pipeline, X_test, y_test)
-            mlflow.log_param("use_scaler", use_scaler)
-            mlflow.log_param("logreg_c", n_neighbors)
-            mlflow.log_metric("accuracy", accuracy)
-
-            path_folder = save_model_path.parent
-            path_folder.mkdir(exist_ok=True)
-            save_model_path.unlink(missing_ok=True)
-            dump(pipeline, save_model_path)
-            click.echo(f"Model is saved to {save_model_path}.")
+    with mlflow.start_run():
+        pipeline = create_pipeline(n_neighbors, knn_weights)
+        pipeline.fit(X_train, y_train)
+        scores = evaluate(pipeline, X_test, y_test)
+        mlflow.log_param("n-neighbors", use_scaler)
+        mlflow.log_param("knn-weights", n_neighbors)
+        for i in scores:
+            mlflow.log_metric(i, scores[i])
+        path_folder = save_model_path.parent
+        path_folder.mkdir(exist_ok=True)
+        save_model_path.unlink(missing_ok=True)
+        dump(pipeline, save_model_path)
+        click.echo(f"Model is saved to {save_model_path}.")
     
