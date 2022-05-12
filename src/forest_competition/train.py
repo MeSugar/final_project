@@ -1,6 +1,10 @@
 from pathlib import Path
+
+from numpy import average
 from joblib import dump
-from sklearn.model_selection import cross_validate
+from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import StratifiedKFold
+from sklearn.metrics import make_scorer
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
@@ -78,8 +82,15 @@ def train(
 
     pipeline = create_pipeline(n_neighbors, knn_weights)
     pipeline.fit(X_train, y_train)
-    # scoring = ['accuracy', 'f1_macro', 'roc_auc']
-    # scores = cross_validate(pipeline, X_test, y_test, scoring=scoring)
-    # click.echo(f"{scores}")
+    scoring = {
+        'accuracy_score' : make_scorer(accuracy_score),
+        'f1_score' : make_scorer(f1_score, average='weighted'),
+        'roc_auc_score' : make_scorer(roc_auc_score, multi_class='ovr', needs_proba=True)
+    }
+    for key in scoring:
+        score  = cross_val_score(
+        pipeline, X_test, y_test, cv=StratifiedKFold(n_splits=5),
+        scoring=scoring[key]).mean()
+        click.echo(f"{key}: {score}")
     dump(pipeline, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")
