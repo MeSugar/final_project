@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from numpy import average
 from joblib import dump
+from joblib import load
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
@@ -11,6 +11,7 @@ from sklearn.metrics import roc_auc_score
 
 import click
 import pandas as pd
+import os
 
 from .get_data import get_data
 from .create_pipeline import create_pipeline
@@ -20,7 +21,7 @@ from .create_pipeline import create_pipeline
 @click.option(
     "-d",
     "--dataset-path",
-    default="data/train.csv",  
+    default="data/train.csv",
     type=click.Path(exists=True,
                     dir_okay=False,
                     path_type=Path),
@@ -29,7 +30,7 @@ from .create_pipeline import create_pipeline
 @click.option(
     "-s",
     "--save-model-path",
-    default="data/model.joblib",
+    default="model/model.joblib",
     type=click.Path(dir_okay=False, writable=True, path_type=Path),
     show_default=True,
 )
@@ -79,7 +80,6 @@ def train(
         random_state,
         test_split_ratio,
     )
-
     pipeline = create_pipeline(n_neighbors, knn_weights)
     pipeline.fit(X_train, y_train)
     scoring = {
@@ -92,5 +92,9 @@ def train(
         pipeline, X_test, y_test, cv=StratifiedKFold(n_splits=5),
         scoring=scoring[key]).mean()
         click.echo(f"{key}: {score}")
+    path_folder = save_model_path.parent
+    path_folder.mkdir(exist_ok=True)
+    save_model_path.unlink(missing_ok=True)
     dump(pipeline, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")
+    
