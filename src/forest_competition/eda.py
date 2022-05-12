@@ -27,6 +27,7 @@ def create_eda(
     dataset_path: Path,
     save_report_path: Path
 ) -> None:
+    """Script to generate pandas profile report."""
     path_folder = save_report_path.parent
     path_folder.mkdir(exist_ok=True)
     save_report_path.unlink(missing_ok=True)

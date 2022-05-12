@@ -96,16 +96,19 @@ def train(
         random_state,
         test_split_ratio,
     )
+    pipeline = create_pipeline(n_neighbors, knn_weights)
+    pipeline.fit(X_train, y_train)
+    scores = evaluate(pipeline, X_test, y_test)
+    # logging
     with mlflow.start_run():
-        pipeline = create_pipeline(n_neighbors, knn_weights)
-        pipeline.fit(X_train, y_train)
-        scores = evaluate(pipeline, X_test, y_test)
-        mlflow.log_params(scores)
-        for i in scores:
-            mlflow.log_metric(i, scores[i])
+        mlflow.log_metrics(scores)
+        mlflow.log_param("use_scaler", use_scaler)
+        mlflow.log_param("n_neighbors", n_neighbors)
+        mlflow.log_param("knn_weights", knn_weights)
         mlflow.sklearn.log_model(pipeline, "model")
-        path_folder = save_model_path.parent
-        path_folder.mkdir(exist_ok=True)
-        save_model_path.unlink(missing_ok=True)
-        dump(pipeline, save_model_path)
-        click.echo(f"Model is saved to {save_model_path}.")
+    #saving model
+    path_folder = save_model_path.parent
+    path_folder.mkdir(exist_ok=True)
+    save_model_path.unlink(missing_ok=True)
+    dump(pipeline, save_model_path)
+    click.echo(f"Model is saved to {save_model_path}.")

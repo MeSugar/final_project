@@ -6,7 +6,7 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://github.com/MeSugar/final_project"
 repository = "https://github.com/MeSugar/final_project"
-keywords = ["final project"]
+keywords = ["forest competition"]
 authors = ["MeSugar <vlasov3454@yandex.ru>"]
 
 [tool.poetry.dependencies]
@@ -17,6 +17,7 @@ sklearn = "^0.0"
 joblib = "^1.1.0"
 pandas-profiling = "^3.2.0"
 mlflow = "^1.25.1"
+jupyter = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 
