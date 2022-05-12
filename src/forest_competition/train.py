@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from joblib import dump
-from joblib import load
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import make_scorer
@@ -11,10 +10,9 @@ from sklearn.metrics import roc_auc_score
 
 import click
 import pandas as pd
-import os
 
-from .get_data import get_data
-from .create_pipeline import create_pipeline
+from .data import get_data
+from .pipeline import create_pipeline
 
 
 @click.command()

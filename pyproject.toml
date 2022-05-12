@@ -25,3 +25,5 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 train = "forest_competition.train:train"
+eda = "forest_competition.eda:create_eda"
+
