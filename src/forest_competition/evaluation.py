@@ -8,22 +8,22 @@ from sklearn.metrics import accuracy_score
 from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
 from sklearn.pipeline import Pipeline
-from typing import Tuple
+from typing import Dict
 
 
 def evaluate(
     pipeline : Pipeline,
     X_test : pd.DataFrame,
     y_test : pd.Series
-) -> Tuple[float]:
+) -> Dict[str, float]:
     scoring = {
         'accuracy_score' : make_scorer(accuracy_score),
         'f1_score' : make_scorer(f1_score, average='weighted'),
         'roc_auc_score' : make_scorer(roc_auc_score, multi_class='ovr', needs_proba=True)
     }
-    scores = Tuple()
+    scores = {}
     for i, key in enumerate(scoring):
-        scores.append(cross_val_score(
+        scores[key] = cross_val_score(
         pipeline, X_test, y_test, cv=StratifiedKFold(n_splits=5),
-        scoring=scoring[key]).mean())
+        scoring=scoring[key]).mean()
         click.echo(f"{key}: {scores[i]}")
