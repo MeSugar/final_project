@@ -10,7 +10,7 @@ from sklearn.pipeline import Pipeline
 @click.option(
     "-d",
     "--test-dataset-path",
-    default="data/train.csv",
+    default="data/test.csv",
     type=click.Path(exists=True,
                     dir_okay=False,
                     path_type=Path),
@@ -39,7 +39,7 @@ from sklearn.pipeline import Pipeline
 )
 @click.option(
     "-p",
-    "--pipeline",
+    "--pipeline-path",
     default="model/pipeline.joblib",
     type=click.Path(exists=True,
                     dir_okay=False,

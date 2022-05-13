@@ -28,11 +28,4 @@ def create_pipeline(
     )
     pipeline = make_pipeline(
         preprocessor)
-    #save pipeline
-    path_folder = save_pipeline_path.parent
-    path_folder.mkdir(exist_ok=True)
-    save_pipeline_path.unlink(missing_ok=True)
-    dump(pipeline, save_pipeline_path)
-    click.echo(f"Pipeline is saved to {save_pipeline_path}.")
-
     return pipeline

@@ -161,6 +161,13 @@ def train(
         save_pipeline_path
     )
     new_X_train = pipeline.fit_transform(np.array(X_train))
+    #save pipeline
+    path_folder = save_pipeline_path.parent
+    path_folder.mkdir(exist_ok=True)
+    save_pipeline_path.unlink(missing_ok=True)
+    dump(pipeline, save_pipeline_path)
+    click.echo(f"Pipeline is saved to {save_pipeline_path}.")
+    #fitting clf
     clf.fit(new_X_train, y_train)
     new_X_test = pipeline.transform(np.array(X_test))
     scores = evaluate(clf, new_X_test, y_test)
@@ -176,5 +183,5 @@ def train(
     path_folder = save_model_path.parent
     path_folder.mkdir(exist_ok=True)
     save_model_path.unlink(missing_ok=True)
-    dump(pipeline, save_model_path)
+    dump(clf, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")
