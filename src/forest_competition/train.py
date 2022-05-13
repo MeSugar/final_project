@@ -10,6 +10,8 @@ from .data import get_data
 from .pipeline import create_pipeline
 from .evaluation import evaluate
 from .model import generate_model
+from .predict import predict
+
 
 @click.command()
 @click.option(
@@ -157,3 +159,8 @@ def train(
     save_model_path.unlink(missing_ok=True)
     dump(pipeline, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")
+    predict(
+        Path("data/test.csv"),
+        Path("data/sampleSubmission.csv"),
+        Path("predictions/predictions.csv"),
+        pipeline)

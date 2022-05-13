@@ -28,7 +28,8 @@ def generate_model(
         return RandomForestClassifier(
             n_estimators=n_estimators,
             criterion=criterion,
-            max_depth=max_depth
+            max_depth=max_depth,
+            random_state=random_state
         )
 
 
