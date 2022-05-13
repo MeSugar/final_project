@@ -1,5 +1,6 @@
 import click
 import pandas as pd
+import numpy as np
 
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import StratifiedKFold
@@ -9,11 +10,12 @@ from sklearn.metrics import f1_score
 from sklearn.metrics import roc_auc_score
 from sklearn.pipeline import Pipeline
 from typing import Dict
+from typing import Any
 
 
 def evaluate(
-    pipeline : Pipeline,
-    X_test : pd.DataFrame,
+    clf : Any,
+    X_test : np.array,
     y_test : pd.Series
 ) -> Dict[str, float]:
     scoring = {
@@ -24,7 +26,7 @@ def evaluate(
     scores = {}
     for key in scoring:
         scores[key] = cross_val_score(
-        pipeline, X_test, y_test, cv=StratifiedKFold(n_splits=5),
+        clf, X_test, y_test, cv=StratifiedKFold(n_splits=5),
         scoring=scoring[key]).mean()
         click.echo(f"{key}: {scores[key]}")
     return scores

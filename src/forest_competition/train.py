@@ -1,7 +1,9 @@
 import click
 import mlflow
 import mlflow.sklearn
+
 import pandas as pd
+import numpy as np
 
 from pathlib import Path
 from joblib import dump
@@ -28,9 +30,23 @@ from .predict import predict
     "-s",
     "--save-model-path",
     default="model/model.joblib",
-    type=click.Path(dir_okay=False, writable=True, path_type=Path),
+    type=click.Path(
+        dir_okay=False,
+        writable=True,
+        path_type=Path),
     show_default=True,
     help="Path where the fitted model will be saved."
+)
+@click.option(
+    "-p",
+    "--save-pipeline-path",
+    default="model/pipeline.joblib",
+    type=click.Path(
+        dir_okay=False,
+        writable=True,
+        path_type=Path),
+    show_default=True,
+    help="Path to the data preprocessing pipeline."
 )
 @click.option(
     "--random-state",
@@ -112,6 +128,7 @@ from .predict import predict
 def train(
         dataset_path: Path,
         save_model_path: Path,
+        save_pipeline_path : Path,
         random_state: int,
         test_split_ratio : float,
         use_scaler : bool,
@@ -137,14 +154,16 @@ def train(
         lr_c, n_estimators,
         criterion, max_depth
     )
-    #pipeline
+    #preprocessing pipeline
     pipeline = create_pipeline(
         use_scaler, use_pca,
-        X_train.iloc[:, :10].columns,
-        clf
+        slice(0, 10),
+        save_pipeline_path
     )
-    pipeline.fit(X_train, y_train)
-    scores = evaluate(pipeline, X_test, y_test)
+    new_X_train = pipeline.fit_transform(np.array(X_train))
+    clf.fit(new_X_train, y_train)
+    new_X_test = pipeline.transform(np.array(X_test))
+    scores = evaluate(clf, new_X_test, y_test)
     # logging
     with mlflow.start_run():
         mlflow.log_metrics(scores)
@@ -159,8 +178,3 @@ def train(
     save_model_path.unlink(missing_ok=True)
     dump(pipeline, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")
-    predict(
-        Path("data/test.csv"),
-        Path("data/sampleSubmission.csv"),
-        Path("predictions/predictions.csv"),
-        pipeline)
