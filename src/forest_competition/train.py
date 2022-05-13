@@ -11,7 +11,6 @@ from .pipeline import create_pipeline
 from .evaluation import evaluate
 from .model import generate_model
 
-
 @click.command()
 @click.option(
     "-d",
@@ -89,7 +88,7 @@ from .model import generate_model
 @click.option(
     "--criterion",
     default='gini',
-    type=click.Choice(["gini", "entropy", "log_loss"]),
+    type=click.Choice(["gini", "entropy"]),
     show_default=True,
     help="Random forest function to measure the quality of a split."
 )
@@ -140,18 +139,17 @@ def train(
     pipeline = create_pipeline(
         use_scaler, use_pca,
         X_train.iloc[:, :10].columns,
-        classifier
+        clf
     )
     pipeline.fit(X_train, y_train)
     scores = evaluate(pipeline, X_test, y_test)
     # logging
     with mlflow.start_run():
         mlflow.log_metrics(scores)
+        mlflow.log_params(clf.get_params())
         mlflow.log_param("classifier", classifier)
         mlflow.log_param("use_scaler", use_scaler)
         mlflow.log_param("use_pca", use_pca)
-        mlflow.log_param("n_neighbors", n_neighbors)
-        mlflow.log_param("knn_weights", knn_weights)
         mlflow.sklearn.log_model(pipeline, "cla")
     #saving model
     path_folder = save_model_path.parent

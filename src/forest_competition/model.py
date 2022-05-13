@@ -17,8 +17,8 @@ def generate_model(
     if classifier == 'knn':
         return KNeighborsClassifier(
             n_neighbors=n_neighbors,
-            knn_weights=knn_weights,
-            random_state=random_state)
+            weights=knn_weights
+        )
     elif classifier == 'lr':
         return LogisticRegression(
             C=lr_c,
