@@ -1,6 +1,7 @@
 import click
-import pandas as pd
-import numpy as np
+
+from typing import Any
+from typing import List
 
 from joblib import dump
 from sklearn.pipeline import make_pipeline
@@ -8,24 +9,35 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.compose import ColumnTransformer
 from sklearn.decomposition import PCA
+from boruta import BorutaPy
+from sklearn.ensemble import RandomForestClassifier
 
-from typing import List
-
-def create_pipeline(
-    use_scaler : bool,
+def build_pipeline(
     use_pca : bool,
+    use_boruta : bool,
     columns_to_transorm : List,
-    save_pipeline_path
+    clf : Any
 ) -> Pipeline:
     steps = []
-    if use_scaler:
-        steps.append(("scaler", StandardScaler(), columns_to_transorm))
+    steps.append(("scaler", StandardScaler(), columns_to_transorm))
     if use_pca:
-        steps.append(("pca", PCA(n_components=5), columns_to_transorm))
+        steps.append(("pca", PCA(n_components=0.95), columns_to_transorm))
+    if use_boruta:
+        rfc = RandomForestClassifier(n_estimators=1000, n_jobs=-1, random_state=42)
+        steps.append(
+            (
+                "boruta",
+                BorutaPy(
+                    rfc, n_estimators='auto',
+                    verbose=2, random_state=1),
+            )
+        )
     preprocessor = ColumnTransformer(
     steps,
     remainder="passthrough"
     )
     pipeline = make_pipeline(
-        preprocessor)
+        preprocessor,
+        clf
+    )
     return pipeline
