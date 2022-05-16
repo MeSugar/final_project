@@ -4,7 +4,6 @@ import mlflow
 import mlflow.sklearn
 
 import pandas as pd
-import numpy as np
 
 from pathlib import Path
 from joblib import dump
@@ -83,19 +82,18 @@ def train(
         use_pca, use_boruta,
         slice(0, 10), clf
     )
-    scores = model_evaluation(pipeline, classifier, X, y)
-    click.echo(scores)
-    params = model_tuning(pipeline, classifier, X, y)
-    final_model = build_pipeline(
-        use_pca, use_boruta,
-        slice(0, 10),
-        init_classifier(classifier, random_state)
-    )
-    final_model.set_params(**params)
-    final_model.fit(X, y)
-    # logging
     with mlflow.start_run():
-        mlflow.log_metrics(scores)
+        scores = model_evaluation(pipeline, classifier, X, y)
+        click.echo(scores)
+        params = model_tuning(pipeline, classifier, X, y)
+        final_model = build_pipeline(
+            use_pca, use_boruta,
+            slice(0, 10),
+            init_classifier(classifier, random_state)
+        )
+        final_model.set_params(**params)
+        final_model.fit(X, y)
+        # mlflow.log_metrics(scores)
         mlflow.log_params(params)
         mlflow.log_param("classifier", classifier)
         mlflow.log_param("use_pca", use_pca)

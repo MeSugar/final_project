@@ -22,22 +22,21 @@ def build_pipeline(
     steps.append(("scaler", StandardScaler(), columns_to_transorm))
     if use_pca:
         steps.append(("pca", PCA(n_components=0.95), columns_to_transorm))
-    if use_boruta:
-        rfc = RandomForestClassifier(n_estimators=1000, n_jobs=-1, random_state=42)
-        steps.append(
-            (
-                "boruta",
-                BorutaPy(
-                    rfc, n_estimators='auto',
-                    verbose=2, random_state=1),
-            )
-        )
     preprocessor = ColumnTransformer(
     steps,
     remainder="passthrough"
     )
-    pipeline = make_pipeline(
-        preprocessor,
-        clf
-    )
+    pipeline = make_pipeline(preprocessor)
+    if use_boruta:
+        rfc = RandomForestClassifier(n_estimators=1000, n_jobs=-1, random_state=42)
+        pipeline.steps.append(
+            (
+                "boruta",
+                BorutaPy(
+                    rfc, n_estimators='auto',
+                    verbose=2, random_state=1
+                ),
+            )
+        )
+    pipeline.steps.append(clf)
     return pipeline
