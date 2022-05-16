@@ -38,35 +38,21 @@ from sklearn.pipeline import Pipeline
     help="Path to the model."
 )
 @click.option(
-    "-p",
-    "--pipeline-path",
-    default="model/pipeline.joblib",
-    type=click.Path(exists=True,
-                    dir_okay=False,
-                    path_type=Path),
-    show_default=True,
-    help="Path to the data preprocessing pipeline."
-)
-@click.option(
     "--save-predictions-path",
     default="data/predictions.csv",
     type=click.Path(dir_okay=False, writable=True, path_type=Path),
     show_default=True,
     help="Path to save the predictions file."
 )
-
 def predict(
     test_dataset_path : Path,
     sample_submission_path : Path,
     model_path : Path,
-    pipeline_path : Path,
     save_predictions_path : Path
 ) -> None:
     X_test = pd.read_csv(test_dataset_path, index_col="Id")
-    pipeline = load(pipeline_path)
-    new_X = pipeline.transform(np.array(X_test))
     model = load(model_path)
-    predictions = model.predict(new_X)
+    predictions = model.predict(X_test)
     submission = pd.read_csv(sample_submission_path)
     submission["Cover_Type"] = predictions
     #saving predcitions
