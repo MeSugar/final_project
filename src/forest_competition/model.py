@@ -21,7 +21,7 @@ def init_classifier(classifier : str) -> Any:
     if classifier == 'knn':
         return KNeighborsClassifier(n_jobs=-1)
     elif classifier == 'logreg':
-        return LogisticRegression(random_state=1, n_jobs=-1)
+        return LogisticRegression(random_state=1, tol=0.001, max_iter=1000, n_jobs=-1)
     elif classifier == 'rfc':
         return RandomForestClassifier(random_state=1, n_jobs=-1)
 
@@ -30,12 +30,14 @@ def build_param_grid(classifier : str) -> Dict:
     if classifier == 'knn':
         param_grid['kneighborsclassifier__n_neighbors'] = list(range(1, 16))
         param_grid['kneighborsclassifier__weights'] = ['uniform', 'distance']
+        param_grid['kneighborsclassifier__algorithm'] = ['ball_tree', 'kd_tree', 'brute']
         param_grid['kneighborsclassifier__p'] = [1, 2]
     elif classifier == 'logreg':
-        param_grid['C'] = [100, 10, 1.0, 0.1, 0.01]
-        param_grid['solver'] = ['newton-cg', 'lbfgs', 'liblinear']
+        param_grid['logisticregression__C'] = [100, 10, 1.0, 0.1, 0.01]
+        param_grid['logisticregression__solver'] = ['newton-cg', 'lbfgs', 'liblinear']
     elif classifier == 'rfc':
         param_grid['n_estimators'] = np.linspace(200, 2000, 10)
+        param_grid['criterion'] = ['gini', 'entropy']
         arr = np.linspace(10, 110, 11)
         param_grid['max_depth'] = np.append(arr, None)
         param_grid['min_samples_split'] = [2, 5, 10]

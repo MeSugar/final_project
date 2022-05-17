@@ -20,7 +20,7 @@ def build_pipeline(
     steps = []
     steps.append(("scaler", StandardScaler(), columns_to_transorm))
     if reduce_dim == 'pca':
-        steps.append(("pca", PCA(n_components=0.95), columns_to_transorm))
+        steps.append(("pca", PCA(n_components=0.99), columns_to_transorm))
     preprocessor = ColumnTransformer(
         steps,
         remainder="passthrough"
