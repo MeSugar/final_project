@@ -85,5 +85,5 @@ def train(
     path_folder = save_model_path.parent
     path_folder.mkdir(exist_ok=True)
     save_model_path.unlink(missing_ok=True)
-    dump(clf, save_model_path)
+    dump(final_model, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")
