@@ -37,25 +37,11 @@ from .predict import predict
     help="Path where the fitted model will be saved."
 )
 @click.option(
-    "--random-state",
-    default=42,
-    type=int,
+    "--reduce-dim",
+    default=None,
+    type=click.Choice(["pca", "boruta"]),
     show_default=True,
-    help="Parameter to control the random number generator used by algorithms."
-)
-@click.option(
-    "--use-pca",
-    default=False,
-    type=bool,
-    show_default=True,
-    help="Use PCA to reduce dimensionality."
-)
-@click.option(
-    "--use-boruta",
-    default=False,
-    type=bool,
-    show_default=True,
-    help="Use Boruta for feature selection."
+    help="Method to reduce feature dimensionality."
 )
 @click.option(
     "--classifier",
@@ -67,19 +53,16 @@ from .predict import predict
 def train(
         dataset_path: Path,
         save_model_path: Path,
-        random_state: int,
-        use_pca : bool,
-        use_boruta : bool,
+        reduce_dim : str,
         classifier : str
 ) -> None:
     """Script to train and save model."""
     X, y = get_data(
-        dataset_path,
-        random_state,
+        dataset_path
     )
-    clf = init_classifier(classifier, random_state)
+    clf = init_classifier(classifier)
     pipeline = build_pipeline(
-        use_pca, use_boruta,
+        reduce_dim,
         slice(0, 10), clf
     )
     with mlflow.start_run():
@@ -87,17 +70,16 @@ def train(
         click.echo(scores)
         params = model_tuning(pipeline, classifier, X, y)
         final_model = build_pipeline(
-            use_pca, use_boruta,
+            reduce_dim,
             slice(0, 10),
-            init_classifier(classifier, random_state)
+            init_classifier(classifier)
         )
         final_model.set_params(**params)
         final_model.fit(X, y)
-        # mlflow.log_metrics(scores)
+        mlflow.log_metrics(scores)
         mlflow.log_params(params)
         mlflow.log_param("classifier", classifier)
-        mlflow.log_param("use_pca", use_pca)
-        mlflow.log_param("use_boruta", use_boruta)
+        mlflow.log_param("reduce_dim", reduce_dim)
         mlflow.sklearn.log_model(pipeline, "cla")
     #saving the model
     path_folder = save_model_path.parent

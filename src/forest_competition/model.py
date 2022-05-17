@@ -17,13 +17,13 @@ from sklearn.model_selection import cross_validate
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import RandomizedSearchCV
 
-def init_classifier(classifier : str, random_state : int) -> Any:
+def init_classifier(classifier : str) -> Any:
     if classifier == 'knn':
         return KNeighborsClassifier(n_jobs=-1)
     elif classifier == 'logreg':
-        return LogisticRegression(random_state=random_state, n_jobs=-1)
+        return LogisticRegression(random_state=1, n_jobs=-1)
     elif classifier == 'rfc':
-        return RandomForestClassifier(random_state=random_state, n_jobs=-1)
+        return RandomForestClassifier(random_state=1, n_jobs=-1)
 
 def build_param_grid(classifier : str) -> Dict:
     param_grid = {}
