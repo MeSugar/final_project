@@ -7,21 +7,35 @@ from joblib import dump
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import ColumnTransformer
 from sklearn.decomposition import PCA
 from boruta import BorutaPy
 from sklearn.ensemble import RandomForestClassifier
 
+def OneHotInverter(X, y=None):
+    copy = X.copy()
+    copy[X.columns[0] + '_inverted'] = copy.idxmax(1)
+    copy.drop(X, axis=1, inplace=True)
+    return OrdinalEncoder().fit_transform(copy)
+
+
 def build_pipeline(
     reduce_dim : str,
+    invert_one_hot : bool,
     columns_to_transorm : List,
     clf : Any
 ) -> Pipeline:
     steps = []
     steps.append(("scaler", StandardScaler(), columns_to_transorm))
+    if invert_one_hot:
+        transformed = FunctionTransformer(OneHotInverter)
+        steps.append(("onehotinverter1", transformed, slice(10, 14)))
+        steps.append(("onehotinverter2", transformed, slice(14, 54)))
     if reduce_dim == 'pca':
         steps.append(("pca", PCA(n_components=0.99), columns_to_transorm))
-    preprocessor = ColumnTransformer(
+    preprocessor = ColumnTransformer(   
         steps,
         remainder="passthrough"
     )
