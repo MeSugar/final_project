@@ -23,16 +23,16 @@ def OneHotInverter(X, y=None):
 
 def build_pipeline(
     reduce_dim : str,
-    invert_one_hot : bool,
+    invert_dummy : bool,
     columns_to_transorm : List,
     clf : Any
 ) -> Pipeline:
     steps = []
     steps.append(("scaler", StandardScaler(), columns_to_transorm))
-    if invert_one_hot:
+    if invert_dummy:
         transformed = FunctionTransformer(OneHotInverter)
-        steps.append(("onehotinverter1", transformed, slice(10, 14)))
-        steps.append(("onehotinverter2", transformed, slice(14, 54)))
+        steps.append(("dummyinverter1", transformed, slice(10, 14)))
+        steps.append(("dummyinverter2", transformed, slice(14, 54)))
     if reduce_dim == 'pca':
         steps.append(("pca", PCA(n_components=0.99), columns_to_transorm))
     preprocessor = ColumnTransformer(   

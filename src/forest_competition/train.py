@@ -41,7 +41,14 @@ from .predict import predict
     default=None,
     type=click.Choice(["pca", "boruta"]),
     show_default=True,
-    help="Method to reduce feature dimensionality."
+    help="Use one of methods to reduce feature dimensionality."
+)
+@click.option(
+    "--invert-dummy",
+    default=False,
+    type=bool,
+    show_default=True,
+    help="Use method to invert dummy variables (usefull for trees)."
 )
 @click.option(
     "--classifier",
@@ -54,6 +61,7 @@ def train(
         dataset_path: Path,
         save_model_path: Path,
         reduce_dim : str,
+        invert_dummy : bool,
         classifier : str
 ) -> None:
     """Script to train and save model."""
@@ -63,6 +71,7 @@ def train(
     clf = init_classifier(classifier)
     pipeline = build_pipeline(
         reduce_dim,
+        invert_dummy,
         slice(0, 10), clf
     )
     with mlflow.start_run():
@@ -71,6 +80,7 @@ def train(
         params = model_tuning(pipeline, classifier, X, y)
         final_model = build_pipeline(
             reduce_dim,
+            invert_dummy,
             slice(0, 10),
             init_classifier(classifier)
         )
@@ -80,6 +90,7 @@ def train(
         mlflow.log_params(params)
         mlflow.log_param("classifier", classifier)
         mlflow.log_param("reduce_dim", reduce_dim)
+        mlflow.log_param("invert_dummy", invert_dummy)
         mlflow.sklearn.log_model(pipeline, "cla")
     #saving the model
     path_folder = save_model_path.parent

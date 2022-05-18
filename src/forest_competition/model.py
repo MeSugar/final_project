@@ -38,10 +38,10 @@ def build_param_grid(classifier : str) -> Dict:
     elif classifier == 'rfc':
         param_grid['randomforestclassifier__n_estimators'] = [int(x) for x in np.linspace(200, 2000, 10)]
         param_grid['randomforestclassifier__criterion'] = ['gini', 'entropy']
-        arr = np.linspace(10, 110, 11)
+        arr = [int(x) for x in np.linspace(10, 110, 11)]
         param_grid['randomforestclassifier__max_depth'] = np.append(arr, None)
-        param_grid['randomforestclassifier__min_samples_split'] = [2, 5, 10]
-        param_grid['randomforestclassifier__min_samples_leaf'] = [1, 2, 4]
+        param_grid['randomforestclassifier__min_samples_split'] = [2, 4, 10]
+        param_grid['randomforestclassifier__min_samples_leaf'] = [2, 4, 10]
     return param_grid
 
 def model_evaluation(
