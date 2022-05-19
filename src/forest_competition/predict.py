@@ -5,6 +5,8 @@ from pathlib import Path
 from joblib import load
 from sklearn.pipeline import Pipeline
 
+from .data import generate_features
+
 @click.command()
 @click.option(
     "-d",
@@ -50,6 +52,7 @@ def predict(
     save_predictions_path : Path
 ) -> None:
     X_test = pd.read_csv(test_dataset_path, index_col="Id")
+    X_test = generate_features(X_test)
     model = load(model_path)
     predictions = model.predict(X_test)
     submission = pd.read_csv(sample_submission_path)

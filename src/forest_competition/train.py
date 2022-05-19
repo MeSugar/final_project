@@ -68,6 +68,7 @@ def train(
     X, y = get_data(
         dataset_path
     )
+    X = generate_features(X)
     clf = init_classifier(classifier)
     pipeline = build_pipeline(
         reduce_dim,
@@ -75,6 +76,7 @@ def train(
         slice(0, 10), clf
     )
     with mlflow.start_run():
+
         scores = model_evaluation(pipeline, classifier, X, y)
         click.echo(scores)
         params = model_tuning(pipeline, classifier, X, y)
