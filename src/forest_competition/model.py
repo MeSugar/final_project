@@ -7,6 +7,7 @@ from typing import Dict
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import ExtraTreeClassifier
 
 from sklearn.metrics import make_scorer
 from sklearn.metrics import accuracy_score
@@ -24,6 +25,8 @@ def init_classifier(classifier : str) -> Any:
         return LogisticRegression(random_state=1, tol=0.001, max_iter=10000, n_jobs=3)
     elif classifier == 'rfc':
         return RandomForestClassifier(random_state=1, n_jobs=3)
+    elif classifier == 'extra':
+        return ExtraTreeClassifier(random_state=1, n_jobs=3)
 
 def build_param_grid(classifier : str) -> Dict:
     param_grid = {}
@@ -35,7 +38,7 @@ def build_param_grid(classifier : str) -> Dict:
     elif classifier == 'logreg':
         param_grid['logisticregression__C'] = [100, 10, 1.0, 0.1, 0.01]
         param_grid['logisticregression__solver'] = ['newton-cg', 'lbfgs', 'liblinear']
-    elif classifier == 'rfc':
+    elif classifier == 'rfc' or classifier == 'extra':
         param_grid['randomforestclassifier__n_estimators'] = [int(x) for x in np.linspace(200, 2000, 10)]
         param_grid['randomforestclassifier__criterion'] = ['gini', 'entropy']
         arr = [int(x) for x in np.linspace(10, 110, 11)]

@@ -53,7 +53,7 @@ from .predict import predict
 @click.option(
     "--classifier",
     default="knn",
-    type=click.Choice(["knn", "logreg", "rfc"]),
+    type=click.Choice(["knn", "logreg", "rfc", "extra"]),
     show_default=True,
     help="Algorithm to be used for modeling."
 )
