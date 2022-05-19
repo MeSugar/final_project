@@ -54,7 +54,7 @@ def predict(
     predictions = model.predict(X_test)
     submission = pd.read_csv(sample_submission_path)
     submission["Cover_Type"] = predictions
-    #saving predcitions
+    #save predcitions
     save_predictions_path.unlink(missing_ok=True)
     submission.to_csv(save_predictions_path, index=False)
     click.echo(f"Predictions is saved to {save_predictions_path}.")

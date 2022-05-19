@@ -19,11 +19,11 @@ from sklearn.model_selection import RandomizedSearchCV
 
 def init_classifier(classifier : str) -> Any:
     if classifier == 'knn':
-        return KNeighborsClassifier(n_jobs=-1)
+        return KNeighborsClassifier(n_jobs=3)
     elif classifier == 'logreg':
-        return LogisticRegression(random_state=1, tol=0.001, max_iter=10000, n_jobs=-1)
+        return LogisticRegression(random_state=1, tol=0.001, max_iter=10000, n_jobs=3)
     elif classifier == 'rfc':
-        return RandomForestClassifier(random_state=1, n_jobs=-1)
+        return RandomForestClassifier(random_state=1, n_jobs=3)
 
 def build_param_grid(classifier : str) -> Dict:
     param_grid = {}
@@ -72,9 +72,9 @@ def model_evaluation(
         cv=cv_inner,
         scoring='accuracy',
         random_state=42,
-        n_jobs=-1
+        n_jobs=3
     )
-    scores = cross_validate(search, X, y, scoring=scoring, cv=cv_outer, n_jobs=-1)
+    scores = cross_validate(search, X, y, scoring=scoring, cv=cv_outer, n_jobs=3)
     means = {
         'accuracy' : np.mean(scores["test_accuracy_score"]),
         'f1' : np.mean(scores["test_f1_score"]),
@@ -100,7 +100,7 @@ def model_tuning(
         cv=cv,
         scoring='accuracy',
         random_state=42,
-        n_jobs=-1
+        n_jobs=3
     )
     search.fit(X, y)
     return search.best_params_

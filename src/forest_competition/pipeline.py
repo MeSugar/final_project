@@ -20,7 +20,6 @@ def OneHotInverter(X, y=None):
     copy.drop(X, axis=1, inplace=True)
     return OrdinalEncoder().fit_transform(copy)
 
-
 def build_pipeline(
     reduce_dim : str,
     invert_dummy : bool,
@@ -41,7 +40,7 @@ def build_pipeline(
     )
     pipeline = make_pipeline(preprocessor, clf)
     if reduce_dim == 'boruta':
-        rfc = RandomForestClassifier(n_estimators=1000, n_jobs=-1, random_state=42)
+        rfc = RandomForestClassifier(n_estimators=1000, n_jobs=3, random_state=42)
         pipeline.steps.insert(
             1, 
             (

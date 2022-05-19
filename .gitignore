@@ -4,5 +4,4 @@ model/
 report/
 mlruns/
 .ipynb_checkpoints
-notebooks/
 predictions/

@@ -92,7 +92,7 @@ def train(
         mlflow.log_param("reduce_dim", reduce_dim)
         mlflow.log_param("invert_dummy", invert_dummy)
         mlflow.sklearn.log_model(pipeline, "cla")
-    #saving the model
+    #save the model
     path_folder = save_model_path.parent
     path_folder.mkdir(exist_ok=True)
     save_model_path.unlink(missing_ok=True)
