@@ -1,4 +1,6 @@
 This is the solution for the [Forest Cover Type Prediction](https://www.kaggle.com/competitions/forest-cover-type-prediction/) competition formated as a **Python package**. It uses [Forest train](https://www.kaggle.com/competitions/forest-cover-type-prediction/data?select=train.csv) dataset.
+![image](https://user-images.githubusercontent.com/75207011/169406863-4411a699-f42d-4eda-a3f0-a6341484c2f5.png)
+
 
 ## Usage
 This package allows you to train model for predicting the forest cover type (the predominant kind of tree cover) from strictly cartographic variables.
