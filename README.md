@@ -5,6 +5,7 @@ This package allows you to train model for predicting the forest cover type (the
 1. Clone this repository to your machine:
 ```
 git clone https://github.com/MeSugar/forest_competition.git
+cd forest_competition
 ```
 2. Download [Forest train](https://www.kaggle.com/competitions/forest-cover-type-prediction/data?select=train.csv) dataset, save csv locally (default path is *data/train.csv* in repository's root).
 3. Make sure Python 3.9 and [Poetry](https://python-poetry.org/docs/) are installed on your machine (I used Poetry 1.1.13).
