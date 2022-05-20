@@ -77,8 +77,8 @@ def train(
     )
     with mlflow.start_run():
 
-        scores = model_evaluation(pipeline, classifier, X, y)
-        click.echo(scores)
+        # scores = model_evaluation(pipeline, classifier, X, y)
+        # click.echo(scores)
         params = model_tuning(pipeline, classifier, X, y)
         final_model = build_pipeline(
             reduce_dim,
@@ -88,7 +88,7 @@ def train(
         )
         final_model.set_params(**params)
         final_model.fit(X, y)
-        mlflow.log_metrics(scores)
+        # mlflow.log_metrics(scores)
         mlflow.log_params(params)
         mlflow.log_param("classifier", classifier)
         mlflow.log_param("reduce_dim", reduce_dim)
