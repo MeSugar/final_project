@@ -60,7 +60,7 @@ def train(
     classifier: str,
 ) -> None:
     """Script to train and save model."""
-    if '.joblib' not in str(save_model_path.absolute()):
+    if ".joblib" not in str(save_model_path.absolute()):
         exit(2)
     with mlflow.start_run():
         X, y = get_data(dataset_path)

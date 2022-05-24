@@ -6,3 +6,6 @@ mlruns/
 .ipynb_checkpoints
 predictions/
 .python-version
+.nox
+.mypy_cache
+.pytest_cache
