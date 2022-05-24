@@ -5,3 +5,4 @@ report/
 mlruns/
 .ipynb_checkpoints
 predictions/
+.python-version
