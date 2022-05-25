@@ -1,8 +1,13 @@
+from cgi import test
 import pytest
 import click
+import numpy as np
 from click.testing import CliRunner
 from typing import Any
 from forest_competition.train import train
+from forest_competition.data import generate_features
+from test_helper import generate_data
+from joblib import load
 
 
 @pytest.fixture
@@ -54,12 +59,11 @@ invert_dummy_test_args = [
 
 @pytest.mark.parametrize("test_input, expected", invert_dummy_test_args)
 def test_train_fails_on_invalid_invert_dummy_value(
-    runner: CliRunner, test_input: Any, expected: int
+    runner: CliRunner, test_input: Any, expected: Any
 ) -> None:
     """It fails when --invert-dummy option gets wrong value"""
     result = runner.invoke(train, ["--invert-dummy", test_input])
-    click.echo(result.output)
-    assert result.exit_code == expected[0]
+    assert expected[0] == result.exit_code
     assert expected[1] in result.output
 
 
@@ -74,3 +78,23 @@ def test_train_fails_on_invalid_classifier_value(
     result = runner.invoke(train, ["--classifier", test_input])
     assert result.exit_code == expected
     assert "Invalid value for '--classifier'" in result.output
+
+
+def test_model(runner: CliRunner) -> None:
+    with runner.isolated_filesystem():
+        train_data = generate_data(200)
+        train_data.to_csv("train.csv", index=False)
+
+        result = runner.invoke(
+            train, ["--dataset-path", "train.csv", "--save-model-path", "model.joblib"]
+        )
+        model = load("model.joblib")
+        test_data = generate_data(100).drop(["Id", "Cover_Type"], axis=1)
+        test_data = generate_features(test_data)
+        assert hasattr(model, "predict")
+        assert hasattr(model, "predict_proba")
+        assert np.all(model.predict_proba(test_data) >= 0)
+        assert np.all(model.predict_proba(test_data) <= 1)
+        assert np.all(model.predict(test_data) >= 1)
+        assert np.all(model.predict(test_data) <= 7)
+        assert result.exit_code == 0

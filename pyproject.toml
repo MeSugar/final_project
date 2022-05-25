@@ -37,3 +37,20 @@ train = "forest_competition.train:train"
 predict = "forest_competition.predict:predict"
 eda = "forest_competition.eda:eda"
 
+[[tool.mypy.overrides]]
+module = [
+    "pandas.*",
+    "sklearn.*",
+    "boruta.*",
+    "joblib.*",
+    "mlflow.*",
+    "faker.*",
+    "numpy.*",
+    "click.*",
+    "pytest.*",
+    "nox.*",
+    "pandas_profiling.*",
+    "forest_competition.train",
+    "forest_competition.data"
+]
+ignore_missing_imports = true

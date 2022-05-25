@@ -40,7 +40,7 @@ def generate_features(df: pd.DataFrame) -> pd.DataFrame:
 
 def get_data(
     dataset_path: Path,
-) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+) -> Tuple[pd.DataFrame, pd.Series]:
     data = pd.read_csv(dataset_path, index_col="Id")
     click.echo(f"Dataset shape: {data.shape}.")
     X = data.drop("Cover_Type", axis=1)

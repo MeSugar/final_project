@@ -30,8 +30,8 @@ def init_classifier(classifier: str) -> Any:
         return ExtraTreesClassifier(random_state=1, n_jobs=3)
 
 
-def build_param_grid(classifier: str) -> Dict:
-    param_grid = {}
+def build_param_grid(classifier: str) -> Dict[str, Any]:
+    param_grid: Dict[str, Any] = {}
     if classifier == "knn":
         param_grid["kneighborsclassifier__n_neighbors"] = list(range(1, 16))
         param_grid["kneighborsclassifier__weights"] = ["uniform", "distance"]
@@ -50,8 +50,10 @@ def build_param_grid(classifier: str) -> Dict:
             int(x) for x in np.linspace(200, 2000, 10)
         ]
         param_grid["randomforestclassifier__criterion"] = ["gini", "entropy"]
-        arr = [int(x) for x in np.linspace(10, 110, 11)]
-        param_grid["randomforestclassifier__max_depth"] = np.append(arr, None)
+        param_grid["randomforestclassifier__max_depth"] = [
+            int(x) for x in np.linspace(10, 110, 11)
+        ]
+        param_grid["randomforestclassifier__max_depth"].append(None)
         param_grid["randomforestclassifier__min_samples_split"] = [2, 4, 10]
         param_grid["randomforestclassifier__min_samples_leaf"] = [2, 4, 10]
     elif classifier == "extra":
@@ -59,14 +61,18 @@ def build_param_grid(classifier: str) -> Dict:
             int(x) for x in np.linspace(200, 2000, 10)
         ]
         param_grid["extratreesclassifier__criterion"] = ["gini", "entropy"]
-        arr = [int(x) for x in np.linspace(10, 110, 11)]
-        param_grid["extratreesclassifier__max_depth"] = np.append(arr, None)
+        param_grid["extratreesclassifier__max_depth"] = [
+            int(x) for x in np.linspace(10, 110, 11)
+        ]
+        param_grid["extratreesclassifier__max_depth"].append(None)
         param_grid["extratreesclassifier__min_samples_split"] = [2, 4, 10]
         param_grid["extratreesclassifier__min_samples_leaf"] = [2, 4, 10]
     return param_grid
 
 
-def model_evaluation(pipeline: Any, clf_name: str, X: pd.DataFrame, y: pd.Series):
+def model_evaluation(
+    pipeline: Any, clf_name: str, X: pd.DataFrame, y: pd.Series
+) -> Dict[str, Any]:
     cv_inner = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
     cv_outer = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
     param_grid = build_param_grid(clf_name)
@@ -94,7 +100,7 @@ def model_evaluation(pipeline: Any, clf_name: str, X: pd.DataFrame, y: pd.Series
     return means
 
 
-def model_tuning(pipeline: Any, clf_name: str, X: pd.DataFrame, y: pd.Series):
+def model_tuning(pipeline: Any, clf_name: str, X: pd.DataFrame, y: pd.Series) -> Any:
     cv = StratifiedKFold(n_splits=10, shuffle=True, random_state=42)
     param_grid = build_param_grid(clf_name)
     search = RandomizedSearchCV(

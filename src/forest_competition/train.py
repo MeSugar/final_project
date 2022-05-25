@@ -67,26 +67,23 @@ def train(
         X = generate_features(X)
         clf = init_classifier(classifier)
         pipeline = build_pipeline(reduce_dim, invert_dummy, slice(0, 10), clf)
-        # scores = model_evaluation(pipeline, classifier, X, y)
-        # click.echo(scores)
-        # params = model_tuning(pipeline, classifier, X, y)
-        # final_model = build_pipeline(
-        #     reduce_dim,
-        #     invert_dummy,
-        #     slice(0, 10),
-        #     init_classifier(classifier)
-        # )
-        # final_model.set_params(**params)
-        # final_model.fit(X, y)
-        # # mlflow.log_metrics(scores)
-        # mlflow.log_params(params)
-        # mlflow.log_param("classifier", classifier)
-        # mlflow.log_param("reduce_dim", reduce_dim)
-        # mlflow.log_param("invert_dummy", invert_dummy)
-        # mlflow.sklearn.log_model(pipeline, "cla")
+        scores = model_evaluation(pipeline, classifier, X, y)
+        click.echo(scores)
+        params = model_tuning(pipeline, classifier, X, y)
+        final_model = build_pipeline(
+            reduce_dim, invert_dummy, slice(0, 10), init_classifier(classifier)
+        )
+        final_model.set_params(**params)
+        final_model.fit(X, y)
+        mlflow.log_metrics(scores)
+        mlflow.log_params(params)
+        mlflow.log_param("classifier", classifier)
+        mlflow.log_param("reduce_dim", reduce_dim)
+        mlflow.log_param("invert_dummy", invert_dummy)
+        mlflow.sklearn.log_model(pipeline, "cla")
     # save the model
-    # path_folder = save_model_path.parent
-    # path_folder.mkdir(exist_ok=True)
-    # save_model_path.unlink(missing_ok=True)
-    # dump(final_model, save_model_path)
+    path_folder = save_model_path.parent
+    path_folder.mkdir(exist_ok=True)
+    save_model_path.unlink(missing_ok=True)
+    dump(final_model, save_model_path)
     click.echo(f"Model is saved to {save_model_path}.")

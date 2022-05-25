@@ -1,4 +1,6 @@
 import click
+import numpy as np
+import pandas as pd
 
 from typing import Any
 from typing import List
@@ -15,15 +17,16 @@ from boruta import BorutaPy
 from sklearn.ensemble import RandomForestClassifier
 
 
-def OneHotInverter(X, y=None):
+def OneHotInverter(X: pd.DataFrame, y: Any = None) -> pd.DataFrame:
     copy = X.copy()
     copy[X.columns[0] + "_inverted"] = copy.idxmax(1)
     copy.drop(X, axis=1, inplace=True)
-    return OrdinalEncoder().fit_transform(copy)
+    transformed = OrdinalEncoder().fit_transform(copy)
+    return transformed
 
 
 def build_pipeline(
-    reduce_dim: str, invert_dummy: bool, columns_to_transorm: List, clf: Any
+    reduce_dim: str, invert_dummy: bool, columns_to_transorm: slice, clf: Any
 ) -> Pipeline:
     steps = []
     steps.append(("scaler", StandardScaler(), columns_to_transorm))
