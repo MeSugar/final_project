@@ -45,7 +45,49 @@ poetry run predict --help
 ```
 
 ## Development
+The code in this repository must be tested, formatted with black, and pass mypy typechecking before being commited to the repository.
+
+Install all requirements (including dev requirements) to poetry environment:
+```
+poetry install
+```
+Now you can use developer instruments, e.g. [pytest](https://docs.pytest.org/en/6.2.x/index.html):
+```
+poetry run pytest
+```
+![image](https://user-images.githubusercontent.com/75207011/170266137-a4ca82be-3b3b-46e3-af10-9ef3a1d1d9bd.png)
+
+Lint source code with [flake8](https://flake8.pycqa.org/en/latest/):
+```
+poetry run flake8 src tests noxfile.py
+```
+
+Format your code with [black](https://github.com/psf/black):
+```
+poetry run black src tests noxfile.py
+```
+![image](https://user-images.githubusercontent.com/75207011/170269669-55424ec8-22f9-4b03-ba31-ba01bfda6517.png)
+
+Perform type cheking with [mypy](https://mypy.readthedocs.io/en/stable/):
+```
+poetry run mypy src tests noxfile.py
+```
+![image](https://user-images.githubusercontent.com/75207011/170271050-25faf91f-be8f-4472-801f-9fef0cf600fa.png)
+
+More conveniently, to run all sessions of testing, formatting and type checking in a single command, install and use nox:
+```
+pip install --user --upgrade nox
+nox [-r]
+```
 ![image](https://user-images.githubusercontent.com/75207011/170167653-b0296f85-e820-477c-aaff-111477a1a399.png)
+
+In case you want to run a specific step:
+```
+nox -[r]s flake8
+nox -[r]s black
+nox -[r]s mypy
+nox -[r]s tests
+```
 
 
 
