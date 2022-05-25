@@ -10,16 +10,13 @@ def generate_features(df: pd.DataFrame) -> pd.DataFrame:
     df["EVDtH"] = df["Elevation"] - df["Vertical_Distance_To_Hydrology"]
     df["EHDtH"] = df["Elevation"] - df["Horizontal_Distance_To_Hydrology"] * 0.15
     df["EDtH"] = np.sqrt(
-        df["Horizontal_Distance_To_Hydrology"] ** 2
-        + df["Vertical_Distance_To_Hydrology"] ** 2
+        df["Horizontal_Distance_To_Hydrology"] ** 2 + df["Vertical_Distance_To_Hydrology"] ** 2
     )
     df["Hydro_Fire_1"] = (
-        df["Horizontal_Distance_To_Hydrology"]
-        + df["Horizontal_Distance_To_Fire_Points"]
+        df["Horizontal_Distance_To_Hydrology"] + df["Horizontal_Distance_To_Fire_Points"]
     )
     df["Hydro_Fire_2"] = abs(
-        df["Horizontal_Distance_To_Hydrology"]
-        - df["Horizontal_Distance_To_Fire_Points"]
+        df["Horizontal_Distance_To_Hydrology"] - df["Horizontal_Distance_To_Fire_Points"]
     )
     df["Hydro_Road_1"] = abs(
         df["Horizontal_Distance_To_Hydrology"] + df["Horizontal_Distance_To_Roadways"]
