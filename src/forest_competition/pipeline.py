@@ -9,8 +9,8 @@ from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import ColumnTransformer
 from sklearn.decomposition import PCA
-from boruta import BorutaPy
 from sklearn.ensemble import RandomForestClassifier
+from boruta import BorutaPy
 
 
 def OneHotInverter(X: pd.DataFrame, y: Any = None) -> pd.DataFrame:
