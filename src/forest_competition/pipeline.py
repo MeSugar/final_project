@@ -1,11 +1,7 @@
-import click
-import numpy as np
 import pandas as pd
 
 from typing import Any
-from typing import List
 
-from joblib import dump
 from sklearn.pipeline import make_pipeline
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler

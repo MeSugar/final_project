@@ -3,7 +3,7 @@ import nox
 from nox.sessions import Session
 import os
 
-nox.options.sessions = "black", "flake8", "mypy", "tests"
+nox.options.sessions = "flake8", "black", "mypy", "tests"
 locations = "src", "tests", "noxfile.py"
 temp_file_name = "temp.txt"
 
@@ -21,12 +21,6 @@ def install_with_constraints(session: Session, *args: str, **kwargs: Any) -> Non
     session.install(f"--constraint={temp_file_name}", *args, **kwargs)
     os.unlink(temp_file_name)
 
-@nox.session(python="3.8")
-def black(session: Session) -> None:
-    """Run black code formatter."""
-    args = session.posargs or locations
-    install_with_constraints(session, "black")
-    session.run("black", *args)
 
 @nox.session(python="3.8")
 def flake8(session: Session) -> None:
@@ -34,6 +28,14 @@ def flake8(session: Session) -> None:
     args = session.posargs or locations
     install_with_constraints(session, "flake8")
     session.run("flake8", *args)
+
+
+@nox.session(python="3.8")
+def black(session: Session) -> None:
+    """Run black code formatter."""
+    args = session.posargs or locations
+    install_with_constraints(session, "black")
+    session.run("black", *args)
 
 
 @nox.session(python="3.8")

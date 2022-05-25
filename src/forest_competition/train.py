@@ -1,9 +1,6 @@
-import pip
 import click
 import mlflow
 import mlflow.sklearn
-
-import pandas as pd
 
 from pathlib import Path
 from joblib import dump
@@ -11,7 +8,6 @@ from joblib import dump
 from .data import get_data, generate_features
 from .pipeline import build_pipeline
 from .model import init_classifier, model_evaluation, model_tuning
-from .predict import predict
 
 
 @click.command()

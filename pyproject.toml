@@ -54,3 +54,6 @@ module = [
     "forest_competition.data"
 ]
 ignore_missing_imports = true
+
+[tool.pytest]
+addopts = "--disable-warnings"

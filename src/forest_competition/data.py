@@ -5,8 +5,6 @@ import click
 import pandas as pd
 import numpy as np
 
-from sklearn.model_selection import train_test_split
-
 
 def generate_features(df: pd.DataFrame) -> pd.DataFrame:
     df["EVDtH"] = df["Elevation"] - df["Vertical_Distance_To_Hydrology"]

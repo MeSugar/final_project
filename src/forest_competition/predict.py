@@ -3,7 +3,6 @@ import pandas as pd
 
 from pathlib import Path
 from joblib import load
-from sklearn.pipeline import Pipeline
 
 from .data import generate_features
 

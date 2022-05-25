@@ -1,6 +1,4 @@
-from cgi import test
 import pytest
-import click
 import numpy as np
 from click.testing import CliRunner
 from typing import Any
