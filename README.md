@@ -74,7 +74,7 @@ poetry run mypy src tests noxfile.py
 ```
 ![image](https://user-images.githubusercontent.com/75207011/170271050-25faf91f-be8f-4472-801f-9fef0cf600fa.png)
 
-More conveniently, to run all sessions of testing, formatting and type checking in a single command, install and use nox:
+More conveniently, to run all sessions of testing, formatting and type checking in a single command, install and use [nox](https://nox.thea.codes/en/stable/):
 ```
 pip install --user --upgrade nox
 nox [-r]
