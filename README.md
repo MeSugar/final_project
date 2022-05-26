@@ -120,7 +120,9 @@ docker run -d -p 8000:8000 --name model-deploy app
 
 4. Since the model requires quite a lot of values, insert parameters in the *Request body* from the example.json file from the repository root. Then click on the "Execute" button.
 
-5. Finally, in the *Response body*, you will see one of the seven types predicted by the model.
+5. Finally, predicted by the model value will appear in the *Response body* block:
+
+![image](https://user-images.githubusercontent.com/75207011/170490428-8088ac95-163c-49ca-9573-8e08126c68de.png)
 
 
 ## References
