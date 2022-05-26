@@ -6,6 +6,17 @@ This is the solution for the [Forest Cover Type Prediction](https://www.kaggle.c
 
 ## Goals
 The purpose of this project is not only to solve the competition, but also to master modern tools that are useful for writing quality code, as well as developing and deploying models.
+Used tools:
+- Poetry
+- MLflow
+- pytest
+- flake8
+- mypy
+- black
+- nox
+- GitHub Actions
+- FastAPI
+- Docker
 
 ## Usage
 This package allows you to train model for predicting the forest cover type (the predominant kind of tree cover) from strictly cartographic variables.
