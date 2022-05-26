@@ -50,6 +50,7 @@ module = [
     "pytest.*",
     "nox.*",
     "pandas_profiling.*",
+    "fastapi.*",
     "forest_competition.train",
     "forest_competition.data"
 ]
