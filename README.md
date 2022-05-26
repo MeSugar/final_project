@@ -14,7 +14,7 @@ Used tools:
 - mypy
 - black
 - nox
-- GitHub Actions
+- Github Actions
 - FastAPI
 - Docker
 
