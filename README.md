@@ -1,8 +1,11 @@
+
 [![Tests](https://github.com/mesugar/forest_competition/workflows/Tests/badge.svg)](https://github.com/<your-username>/hypermodern-python/actions?workflow=Tests)
 
 This is the solution for the [Forest Cover Type Prediction](https://www.kaggle.com/competitions/forest-cover-type-prediction/) competition formated as a **Python package**. It uses [Forest train](https://www.kaggle.com/competitions/forest-cover-type-prediction/data?select=train.csv) dataset.
 ![image](https://user-images.githubusercontent.com/75207011/169409249-187012e0-7370-46a4-9427-267b5190dd85.png)
 
+## Goals
+The purpose of this project is not only to solve the competition, but also to master modern tools that are useful for writing quality code, as well as developing and deploying models.
 
 ## Usage
 This package allows you to train model for predicting the forest cover type (the predominant kind of tree cover) from strictly cartographic variables.
@@ -91,6 +94,30 @@ nox -[r]s mypy
 nox -[r]s tests
 ```
 
+## References
+### Model evaluation and selection
+- [Article series on model evaluation, model selection, and algorithm selection](https://sebastianraschka.com/blog/2016/model-evaluation-selection-part1.html)
+- [Scikit-learn guide to cross-validation](https://scikit-learn.org/stable/model_selection.html)
+- [Nested cross-validation](https://weina.me/nested-cross-validation/)
 
+### Tracking experiments
+- [ML Experiment Tracking](https://neptune.ai/blog/ml-experiment-tracking)
+- [How We Track Machine Learning Experiments with MLFlow](https://www.datarevenue.com/en-blog/how-we-track-machine-learning-experiments-with-mlflow)
+
+### Project organization
+- [I don't like notebooks.- Joel Grus](https://www.youtube.com/watch?v=7jiPeIFXb6U)
+- [The Complete Guide to Python Virtual Environments!](https://www.youtube.com/watch?v=KxvKCSwlUv8)
+- [The Hitchhiker's Guide to Python](https://docs.python-guide.org/writing/structure/)
+- [Article series Hypermodern Python](https://cjolowicz.github.io/posts/hypermodern-python-01-setup/)
+
+### Code style, reproducibility, testing
+- [Python testing tutorial](https://realpython.com/python-testing/)
+- [Carl Meyer - Type-checked Python in the real world](https://www.youtube.com/watch?v=pMgmKJyWKn8)
+- [flake8](https://flake8.pycqa.org/en/latest/)
+- [Reproducibility, Replicability, and Data Science](https://www.kdnuggets.com/2019/11/reproducibility-replicability-data-science.html)
+
+### Model deployment
+- [FastAPI Deployment Tutorials](https://www.youtube.com/playlist?list=PLZoTAELRMXVPgsojPOHF9i0u2L83-m9P7)
+- [Model deployment with FastAPI and Docker](https://towardsdatascience.com/how-to-deploy-a-machine-learning-model-with-fastapi-docker-and-github-actions-13374cbd638a)
 
 
