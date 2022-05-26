@@ -105,6 +105,23 @@ nox -[r]s mypy
 nox -[r]s tests
 ```
 
+## Model deployment
+It is possible to deploy created model using [FastAPI](https://fastapi.tiangolo.com/).
+
+1. You must have Docker installed.
+2. Build an image with a Dockerfile and run a container with it:
+```
+docker build -t app .
+docker run -d -p 8000:8000 --name model-deploy app
+```
+3. Go to http://localhost:8000/docs and click the "Try it out" button in the */predict* block.
+![image](https://user-images.githubusercontent.com/75207011/170421049-1b6c8561-0496-4ee2-b42c-5da9ea09062b.png)
+
+4. Since the model requires quite a lot of values, insert parameters in the *Request body* from the example.json file from the repository root. Then click on the "Execute" button.
+
+5. Finally, in the *Response body*, you will see one of the seven types predicted by the model.
+
+
 ## References
 ### Model evaluation and selection
 - [Article series on model evaluation, model selection, and algorithm selection](https://sebastianraschka.com/blog/2016/model-evaluation-selection-part1.html)
