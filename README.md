@@ -9,6 +9,7 @@ The purpose of this project is not only to solve the competition, but also to ma
 Used tools:
 - Poetry
 - MLflow
+- Click
 - pytest
 - flake8
 - mypy
