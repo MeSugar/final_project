@@ -5,7 +5,7 @@ This is the solution for the [Forest Cover Type Prediction](https://www.kaggle.c
 ![image](https://user-images.githubusercontent.com/75207011/169409249-187012e0-7370-46a4-9427-267b5190dd85.png)
 
 ## Goals
-The purpose of this project is not only to solve the competition, but also to master modern tools that are useful for writing quality code, as well as developing and deploying models.
+The purpose of this project is not only to solve the competition, but also to master modern tools that are useful for writing quality code in Python, as well as developing and deploying models.
 Used tools:
 - Poetry
 - MLflow
