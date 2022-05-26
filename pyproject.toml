@@ -51,6 +51,7 @@ module = [
     "nox.*",
     "pandas_profiling.*",
     "fastapi.*",
+    "pydantic.*",
     "forest_competition.train",
     "forest_competition.data"
 ]
