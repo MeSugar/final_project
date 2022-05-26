@@ -102,6 +102,7 @@ class UserRequestIn(BaseModel):
     Soil_Type39: int
     Soil_Type40: int
 
+
 @app.get("/")
 def root():
     return {"hello"}
