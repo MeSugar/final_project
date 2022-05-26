@@ -1,7 +1,7 @@
 
 [![Tests](https://github.com/mesugar/forest_competition/workflows/Tests/badge.svg)](https://github.com/mesugar/forest_competition/actions?workflow=Tests)
 
-This is the solution for the [Forest Cover Type Prediction](https://www.kaggle.com/competitions/forest-cover-type-prediction/) competition formated as a **Python package**. It uses [Forest train](https://www.kaggle.com/competitions/forest-cover-type-prediction/data?select=train.csv) dataset.
+This is the solution for the [Forest Cover Type Prediction](https://www.kaggle.com/competitions/forest-cover-type-prediction/) competition formated as a **Python package**. This package allows you to train model for predicting the forest cover type (the predominant kind of tree cover) from strictly cartographic variables and uses [Forest train](https://www.kaggle.com/competitions/forest-cover-type-prediction/data?select=train.csv) dataset. The main metric is categorization accuracy.
 ![image](https://user-images.githubusercontent.com/75207011/169409249-187012e0-7370-46a4-9427-267b5190dd85.png)
 
 ## Goals
@@ -20,7 +20,7 @@ Used tools:
 - Docker
 
 ## Usage
-This package allows you to train model for predicting the forest cover type (the predominant kind of tree cover) from strictly cartographic variables.
+
 1. Clone this repository to your machine:
 ```
 git clone https://github.com/MeSugar/forest_competition.git
